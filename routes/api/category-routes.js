@@ -5,7 +5,9 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
   Category.findAll({
-    include:
+    include: [
+      {}
+    ]
   })
   // find all categories
   // be sure to include its associated Products
@@ -21,7 +23,7 @@ router.post('/', (req, res) => {
   Category.create({
     category_name: req.body.category_name
   })
-  .then(dbCatData => res.json(dbCatData))
+  .then(categoryData => res.json(categoryData))
   .catch( err => {
     console.log(err);
     res.status(500).json(err);
@@ -39,12 +41,12 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbCatData => {
-      if (!dbCatData){
+    .then(categoryData => {
+      if (!categoryData){
         res.status(404)._construct.json({message: 'No category found with that id presentated'});
         return;
       }
-      res.json(dbCatData);
+      res.json(categoryData);
     })
     .catch(err => {
       console.log(err);
